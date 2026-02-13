@@ -353,9 +353,9 @@ Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detal
 ## 👨‍💻 Autor
 
 **[Tu Nombre]**
-- LinkedIn: [linkedin.com/in/tu-perfil](https://linkedin.com/in/tu-perfil)
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- Email: tu.email@ejemplo.com
+- LinkedIn: [linkedin.com/in/yerson-garcia-dias-4996912a9/](https://www.linkedin.com/in/yerson-garcia-dias-4996912a9/)
+- GitHub: [@YersonGD](https://github.com/YersonGD)
+- Email: yerdiaz78gmail.com
 
 Ingeniero Electrónico y de Sistemas especializado en desarrollo de software IoT e industrial.
 
