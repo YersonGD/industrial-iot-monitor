@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: industrial_iot_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-iotuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-iotpass123}
+      POSTGRES_DB: ${POSTGRES_DB:-industrial_iot}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - iot_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iotuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: industrial_iot_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - iot_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MQTT Broker (Eclipse Mosquitto)
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: industrial_iot_mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - iot_network
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: industrial_iot_backend
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-iotuser}:${POSTGRES_PASSWORD:-iotpass123}@postgres:5432/${POSTGRES_DB:-industrial_iot}
+      - REDIS_URL=redis://redis:6379
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_WHATSAPP_FROM=${TWILIO_WHATSAPP_FROM}
+      - TWILIO_WHATSAPP_TO=${TWILIO_WHATSAPP_TO}
+      - SMTP_SERVER=${SMTP_SERVER:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - ALERT_EMAIL_TO=${ALERT_EMAIL_TO}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mosquitto:
+        condition: service_healthy
+    networks:
+      - iot_network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: industrial_iot_frontend
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - iot_network
+    command: npm run dev -- --host
+
+  # IoT Sensors Simulator
+  iot-simulator:
+    build:
+      context: ./iot-simulator
+      dockerfile: Dockerfile
+    container_name: industrial_iot_simulator
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - NUM_MACHINES=3
+      - SIMULATION_SPEED=1.0
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+    networks:
+      - iot_network
+    command: python simulator.py
+
+networks:
+  iot_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
