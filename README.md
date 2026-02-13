@@ -8,137 +8,140 @@
 
 > Sistema completo de monitoreo IoT industrial en tiempo real para optimización de líneas de producción
 
+**Desarrollado por:** [Yerson Garcia Dias](https://github.com/YersonGD)  
+**Universidad:** Universidad Nacional del Callao (UNAC)  
+**Contacto:** [yerdiaz784@gmail.com](mailto:yerdiaz784@gmail.com)
+
 ![Dashboard Preview](docs/images/dashboard-preview.png)
 
 ## 🎯 Descripción
 
 **IndustrialIoT Monitor** es una plataforma de monitoreo industrial que integra datos de sensores IoT en tiempo real, calcula métricas de producción (OEE), analiza consumo energético y envía alertas automáticas cuando se detectan anomalías.
 
-Diseñado para demostrar capacidades profesionales en:
-- Arquitectura de sistemas IoT
-- Desarrollo full-stack (Python + React)
-- Procesamiento de datos en tiempo real
-- Integración con protocolos industriales
-- DevOps y containerización
+Este proyecto demuestra capacidades profesionales en:
+- ✅ Arquitectura de sistemas IoT industriales
+- ✅ Desarrollo full-stack (Python Backend + React Frontend)
+- ✅ Procesamiento de datos en tiempo real con WebSockets
+- ✅ Integración con protocolos industriales (MQTT)
+- ✅ DevOps y containerización con Docker
 
 ## ✨ Características Principales
 
 ### 📊 Dashboard en Tiempo Real
-- Visualización de datos de sensores (temperatura, presión, vibración)
+- Visualización de sensores: temperatura, presión, vibración, consumo energético
 - Gráficas interactivas con históricos
-- Estados de equipos en vivo
-- Actualización vía WebSockets (sin recargar página)
+- Estados de equipos actualizados en vivo
+- Comunicación bidireccional vía WebSockets
 
 ### 🏭 Cálculo de OEE (Overall Equipment Effectiveness)
-- **Disponibilidad**: Tiempo operativo vs tiempo planificado
-- **Performance**: Velocidad real vs velocidad ideal
-- **Calidad**: Productos buenos vs producción total
+- **Disponibilidad**: Tiempo operativo vs planificado
+- **Performance**: Velocidad real vs ideal
+- **Calidad**: Productos buenos vs total
 - **OEE Total**: Métrica integrada de eficiencia
 
 ### ⚡ Monitoreo Energético
 - Consumo por equipo en tiempo real
-- Tendencias de consumo (día/semana/mes)
+- Análisis de tendencias (día/semana/mes)
 - Cálculo de costos estimados
-- Identificación de picos de consumo
+- Detección de picos de consumo
 
 ### 🔔 Sistema de Alertas Inteligente
 - Detección automática de anomalías
 - Umbrales configurables por sensor
-- Notificaciones vía:
+- Notificaciones multi-canal:
   - ✅ WhatsApp (Twilio API)
   - ✅ Email (SMTP)
   - ✅ Dashboard en tiempo real
 
 ### 📈 Análisis Histórico
-- Consulta de datos pasados
+- Consulta de datos pasados con filtros avanzados
 - Exportación a CSV/Excel
 - Reportes personalizables
-- Comparativas de periodos
+- Comparativas entre periodos
 
 ## 🏗️ Arquitectura del Sistema
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Frontend (React)                     │
-│  Dashboard | OEE Analytics | Energy Monitor | Alerts    │
-└────────────────────┬────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│              Frontend (React + TypeScript)            │
+│   Dashboard | OEE Analytics | Energy | Alerts        │
+└────────────────────┬─────────────────────────────────┘
                      │ WebSocket + REST API
-┌────────────────────┴────────────────────────────────────┐
-│              Backend (FastAPI + Python)                 │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐               │
-│  │ REST API │  │WebSocket │  │  MQTT    │               │
-│  │ Endpoints│  │  Server  │  │  Broker  │               │
-│  └──────────┘  └──────────┘  └──────────┘               │
-└────────────────────┬────────────────────────────────────┘
+┌────────────────────┴─────────────────────────────────┐
+│           Backend (FastAPI + Python 3.12)            │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
+│  │ REST API │  │WebSocket │  │  MQTT    │          │
+│  │ Endpoints│  │  Server  │  │  Client  │          │
+│  └──────────┘  └──────────┘  └──────────┘          │
+└────────────────────┬─────────────────────────────────┘
                      │
-┌────────────────────┴────────────────────────────────────┐
-│                Data Layer                               │
-│  ┌──────────────┐      ┌──────────────┐                 │
-│  │ PostgreSQL   │      │    Redis     │                 │
-│  │ (Historical) │      │  (Real-time) │                 │
-│  └──────────────┘      └──────────────┘                 │
-└─────────────────────────────────────────────────────────┘
+┌────────────────────┴─────────────────────────────────┐
+│              Data Layer                               │
+│  ┌──────────────┐      ┌──────────────┐             │
+│  │ PostgreSQL   │      │    Redis     │             │
+│  │ (Historical) │      │  (Real-time) │             │
+│  └──────────────┘      └──────────────┘             │
+└──────────────────────────────────────────────────────┘
                      ▲
                      │ MQTT Protocol
-┌────────────────────┴────────────────────────────────────┐
-│           IoT Sensors Simulator (Python)                │
-│  Temperature | Pressure | Vibration | Power | OEE Data  │
-└─────────────────────────────────────────────────────────┘
+┌────────────────────┴─────────────────────────────────┐
+│        IoT Sensors Simulator (Python)                 │
+│  Temperature | Pressure | Vibration | Power | OEE    │
+└──────────────────────────────────────────────────────┘
 ```
 
 ## 🛠️ Stack Tecnológico
 
 ### Backend
 - **Python 3.12** - Lenguaje principal
-- **FastAPI** - Framework web moderno y rápido
+- **FastAPI** - Framework web moderno con validación automática
 - **WebSockets** - Comunicación bidireccional en tiempo real
-- **MQTT (Eclipse Mosquitto)** - Protocolo IoT estándar
-- **PostgreSQL** - Base de datos relacional para históricos
-- **Redis** - Cache y pub/sub para datos en tiempo real
-- **SQLAlchemy** - ORM para manejo de BD
-- **Alembic** - Migraciones de base de datos
+- **MQTT (Mosquitto)** - Protocolo IoT estándar industrial
+- **PostgreSQL** - Base de datos relacional
+- **Redis** - Cache y pub/sub para tiempo real
+- **SQLAlchemy** - ORM
+- **Alembic** - Migraciones de BD
 - **Pydantic** - Validación de datos
-- **Twilio API** - Envío de WhatsApp
-- **SMTP** - Envío de emails
+- **Twilio API** - Notificaciones WhatsApp
+- **SMTP** - Notificaciones Email
 
 ### Frontend
 - **React 18** - Library UI
 - **TypeScript** - Tipado estático
-- **Vite** - Build tool rápido
+- **Vite** - Build tool
 - **Recharts** - Gráficas interactivas
 - **TailwindCSS** - Framework CSS
 - **Zustand** - State management
 - **React Query** - Data fetching
-- **WebSocket Client** - Conexión en tiempo real
+- **WebSocket Client** - Tiempo real
 
 ### IoT Simulator
-- **Python** - Generador de datos realistas
+- **Python** - Generador de datos
 - **Paho MQTT** - Cliente MQTT
-- **NumPy** - Generación de datos con ruido realista
-- **Threading** - Simulación concurrente de sensores
+- **NumPy** - Datos con ruido realista
+- **Threading** - Simulación concurrente
 
 ### DevOps
 - **Docker** - Containerización
-- **Docker Compose** - Orquestación multi-container
+- **Docker Compose** - Orquestación
 - **GitHub Actions** - CI/CD
-- **pytest** - Testing
-- **Black + isort** - Code formatting
-- **ESLint + Prettier** - Linting frontend
+- **pytest** - Testing backend
+- **Jest** - Testing frontend
 
 ## 🚀 Instalación y Configuración
 
 ### Requisitos Previos
 
 - Docker & Docker Compose
-- Python 3.12+ (para desarrollo local)
-- Node.js 18+ (para desarrollo local)
+- Python 3.12+ (desarrollo local)
+- Node.js 18+ (desarrollo local)
 - Git
 
-### Opción 1: Docker (Recomendado)
+### Quick Start con Docker (Recomendado)
 
 ```bash
 # 1. Clonar repositorio
-git clone https://github.com/TU_USUARIO/industrial-iot-monitor.git
+git clone https://github.com/YersonGD/industrial-iot-monitor.git
 cd industrial-iot-monitor
 
 # 2. Configurar variables de entorno
@@ -148,118 +151,55 @@ cp .env.example .env
 # 3. Levantar todo el sistema
 docker-compose up -d
 
-# 4. Abrir en el navegador
+# 4. Acceder a la aplicación
 # Frontend: http://localhost:3000
 # API Docs: http://localhost:8000/docs
-# MQTT Explorer: localhost:1883
+# MQTT: localhost:1883
 ```
 
-**¡Listo!** El sistema está corriendo con:
-- ✅ Frontend React
-- ✅ Backend FastAPI
-- ✅ PostgreSQL
-- ✅ Redis
-- ✅ MQTT Broker
-- ✅ IoT Simulator (generando datos)
+**¡Listo!** El sistema completo está corriendo con todos los servicios.
 
-### Opción 2: Desarrollo Local
+### Desarrollo Local
 
-#### Backend
-
-```bash
-cd backend
-
-# Crear entorno virtual
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Configurar BD
-alembic upgrade head
-
-# Correr servidor
-uvicorn app.main:app --reload --port 8000
-```
-
-#### Frontend
-
-```bash
-cd frontend
-
-# Instalar dependencias
-npm install
-
-# Correr dev server
-npm run dev
-```
-
-#### IoT Simulator
-
-```bash
-cd iot-simulator
-
-pip install -r requirements.txt
-
-python simulator.py
-```
+Ver documentación completa en [GETTING_STARTED.md](GETTING_STARTED.md)
 
 ## 📖 Uso
 
 ### Dashboard Principal
 
-1. **Abre** http://localhost:3000
-2. **Verás** el dashboard con datos en tiempo real
-3. **Explora** las diferentes secciones:
+1. Abre http://localhost:3000
+2. Visualiza datos en tiempo real
+3. Explora módulos:
    - 🏭 Estado de máquinas
    - 📊 Gráficas de sensores
    - ⚡ Consumo energético
-   - 📈 Cálculo de OEE
-   - 🔔 Alertas activas
-
-### Configurar Alertas
-
-1. Ve a **Configuración → Alertas**
-2. Define umbrales para cada sensor:
-   ```json
-   {
-     "temperatura_max": 85,
-     "presion_max": 6.0,
-     "vibracion_max": 5.0
-   }
-   ```
-3. Configura canales de notificación (WhatsApp/Email)
-4. Las alertas se enviarán automáticamente cuando se superen umbrales
+   - 📈 OEE Analytics
+   - 🔔 Alertas
 
 ### API REST
 
-Documentación interactiva disponible en:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+Documentación interactiva: http://localhost:8000/docs
 
-Endpoints principales:
+**Endpoints principales:**
 
 ```bash
-# Obtener datos de sensores en tiempo real
+# Datos en tiempo real
 GET /api/v1/sensors/realtime
 
-# Histórico de sensores
+# Histórico
 GET /api/v1/sensors/history?start=2024-01-01&end=2024-01-31
 
-# Cálculo de OEE
+# Cálculo OEE
 GET /api/v1/oee/calculate?machine_id=1
 
-# Lista de alertas
+# Alertas
 GET /api/v1/alerts
 
 # Exportar datos
-GET /api/v1/export/csv?start=2024-01-01&end=2024-01-31
+GET /api/v1/export/csv
 ```
 
 ### WebSocket
-
-Conectarse para datos en tiempo real:
 
 ```javascript
 const ws = new WebSocket('ws://localhost:8000/ws');
@@ -270,67 +210,42 @@ ws.onmessage = (event) => {
 };
 ```
 
-## 🎨 Capturas de Pantalla
-
-### Dashboard Principal
-![Dashboard](docs/images/dashboard.png)
-
-### Análisis OEE
-![OEE Analysis](docs/images/oee-analysis.png)
-
-### Monitoreo Energético
-![Energy Monitor](docs/images/energy-monitor.png)
-
-### Sistema de Alertas
-![Alerts](docs/images/alerts.png)
-
 ## 🧪 Testing
 
-### Backend Tests
-
 ```bash
+# Backend
 cd backend
-pytest
+pytest --cov=app
 
-# Con cobertura
-pytest --cov=app --cov-report=html
-```
-
-### Frontend Tests
-
-```bash
+# Frontend
 cd frontend
-npm test
-
-# Con cobertura
 npm test -- --coverage
 ```
 
 ## 📊 Métricas del Proyecto
 
 - **Líneas de código**: ~15,000
-- **Cobertura de tests**: >80%
+- **Cobertura tests**: >80%
 - **Performance**: <100ms response time
 - **Escalabilidad**: Hasta 1000 sensores simultáneos
-- **Tiempo de desarrollo**: 6-8 semanas
 
 ## 🗺️ Roadmap
 
-### Fase 1: MVP ✅
-- [x] Dashboard básico en tiempo real
+### ✅ Fase 1: MVP Completado
+- [x] Dashboard en tiempo real
 - [x] Simulador IoT
 - [x] Sistema de alertas
 - [x] Cálculo de OEE
 - [x] Dockerización
 
-### Fase 2: Mejoras (En progreso)
-- [ ] Machine Learning para predicción de fallas
+### 🚧 Fase 2: En Desarrollo
+- [ ] Machine Learning (predicción de fallas)
 - [ ] App móvil (React Native)
-- [ ] Integración con Modbus RTU
-- [ ] Multi-tenant (múltiples plantas)
-- [ ] Reportes automáticos PDF
+- [ ] Integración Modbus RTU
+- [ ] Multi-tenant
+- [ ] Reportes PDF automáticos
 
-### Fase 3: Empresa
+### 📅 Fase 3: Futuro
 - [ ] Integración con ERP
 - [ ] OPC-UA support
 - [ ] Gemelo digital (Digital Twin)
@@ -338,44 +253,52 @@ npm test -- --coverage
 
 ## 🤝 Contribuciones
 
-Las contribuciones son bienvenidas. Por favor:
+Las contribuciones son bienvenidas. Si tienes ideas o mejoras:
 
 1. Fork el proyecto
 2. Crea una rama (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+3. Commit cambios (`git commit -m 'Agregar funcionalidad X'`)
 4. Push (`git push origin feature/nueva-funcionalidad`)
 5. Abre un Pull Request
 
 ## 📝 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
+Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para detalles.
 
 ## 👨‍💻 Autor
 
-**[Tu Nombre]**
-- LinkedIn: [linkedin.com/in/yerson-garcia-dias-4996912a9/](https://www.linkedin.com/in/yerson-garcia-dias-4996912a9/)
-- GitHub: [@YersonGD](https://github.com/YersonGD)
-- Email: yerdiaz784@gmail.com
+**Yerson Garcia Dias**
 
-Ingeniero Electrónico y de Sistemas especializado en desarrollo de software IoT e industrial.
+Estudiante de Ingeniería Electrónica y de Sistemas (8vo ciclo)  
+Universidad Nacional del Callao (UNAC) - Lima, Perú
+
+- 📧 Email: [yerdiaz784@gmail.com](mailto:yerdiaz784@gmail.com)
+- 💼 LinkedIn: [linkedin.com/in/yerson-garcia-dias-4996912a9](https://www.linkedin.com/in/yerson-garcia-dias-4996912a9/)
+- 🐙 GitHub: [@YersonGD](https://github.com/YersonGD)
+
+### Certificaciones:
+- CCNA CISCO Switching y Wireless
+- Ansible: Automatización de TI + IA
+- English for IT 2 (B2 Técnico)
+
+### Áreas de Especialización:
+- Desarrollo de Software IoT
+- Automatización Industrial
+- Sistemas Embebidos
+- Cloud Computing (AWS/Azure)
+- DevOps & Containerización
 
 ## 🙏 Agradecimientos
 
 - FastAPI por el excelente framework
-- React team por la increíble library
+- React team por la librería
 - Eclipse Foundation por Mosquitto MQTT
 - Comunidad open source
-
-## 📧 Contacto
-
-¿Interesado en este proyecto para tu empresa? ¿Quieres contratar servicios de desarrollo IoT?
-
-📧 Email: yerdiaz784@gmail.com  
-💼 LinkedIn: [linkedin.com/in/tu-perfil ](https://www.linkedin.com/in/yerson-garcia-dias-4996912a9/) 
-🐙 GitHub: [github.com/tu-usuario](https://github.com/YersonGD)
 
 ---
 
 ⭐ **Si este proyecto te resulta útil, dale una estrella en GitHub!**
 
-🔗 **Demo en vivo**: [Próximamente en AWS/Azure]
+📧 **Interesado en colaborar o contratar servicios de desarrollo IoT?**  
+Contacto: [yerdiaz784@gmail.com](mailto:yerdiaz784@gmail.com)
+
