@@ -63,29 +63,29 @@ Este proyecto demuestra capacidades profesionales en:
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│              Frontend (React + TypeScript)            │
+│              Frontend (React + TypeScript)           │
 │   Dashboard | OEE Analytics | Energy | Alerts        │
 └────────────────────┬─────────────────────────────────┘
                      │ WebSocket + REST API
 ┌────────────────────┴─────────────────────────────────┐
 │           Backend (FastAPI + Python 3.12)            │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
-│  │ REST API │  │WebSocket │  │  MQTT    │          │
-│  │ Endpoints│  │  Server  │  │  Client  │          │
-│  └──────────┘  └──────────┘  └──────────┘          │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐            │
+│  │ REST API │  │WebSocket │  │  MQTT    │            │
+│  │ Endpoints│  │  Server  │  │  Client  │            │
+│  └──────────┘  └──────────┘  └──────────┘            │
 └────────────────────┬─────────────────────────────────┘
                      │
 ┌────────────────────┴─────────────────────────────────┐
-│              Data Layer                               │
-│  ┌──────────────┐      ┌──────────────┐             │
-│  │ PostgreSQL   │      │    Redis     │             │
-│  │ (Historical) │      │  (Real-time) │             │
-│  └──────────────┘      └──────────────┘             │
+│              Data Layer                              │
+│  ┌──────────────┐      ┌──────────────┐              │
+│  │ PostgreSQL   │      │    Redis     │              │
+│  │ (Historical) │      │  (Real-time) │              │
+│  └──────────────┘      └──────────────┘              │
 └──────────────────────────────────────────────────────┘
                      ▲
                      │ MQTT Protocol
 ┌────────────────────┴─────────────────────────────────┐
-│        IoT Sensors Simulator (Python)                 │
+│        IoT Sensors Simulator (Python)                │
 │  Temperature | Pressure | Vibration | Power | OEE    │
 └──────────────────────────────────────────────────────┘
 ```
