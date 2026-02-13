@@ -59,29 +59,29 @@ Diseñado para demostrar capacidades profesionales en:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Frontend (React)                      │
+│                    Frontend (React)                     │
 │  Dashboard | OEE Analytics | Energy Monitor | Alerts    │
 └────────────────────┬────────────────────────────────────┘
                      │ WebSocket + REST API
 ┌────────────────────┴────────────────────────────────────┐
-│              Backend (FastAPI + Python)                  │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐             │
-│  │ REST API │  │WebSocket │  │  MQTT    │             │
-│  │ Endpoints│  │  Server  │  │  Broker  │             │
-│  └──────────┘  └──────────┘  └──────────┘             │
+│              Backend (FastAPI + Python)                 │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐               │
+│  │ REST API │  │WebSocket │  │  MQTT    │               │
+│  │ Endpoints│  │  Server  │  │  Broker  │               │
+│  └──────────┘  └──────────┘  └──────────┘               │
 └────────────────────┬────────────────────────────────────┘
                      │
 ┌────────────────────┴────────────────────────────────────┐
-│                Data Layer                                │
-│  ┌──────────────┐      ┌──────────────┐                │
-│  │ PostgreSQL   │      │    Redis     │                │
-│  │ (Historical) │      │  (Real-time) │                │
-│  └──────────────┘      └──────────────┘                │
+│                Data Layer                               │
+│  ┌──────────────┐      ┌──────────────┐                 │
+│  │ PostgreSQL   │      │    Redis     │                 │
+│  │ (Historical) │      │  (Real-time) │                 │
+│  └──────────────┘      └──────────────┘                 │
 └─────────────────────────────────────────────────────────┘
                      ▲
                      │ MQTT Protocol
 ┌────────────────────┴────────────────────────────────────┐
-│           IoT Sensors Simulator (Python)                 │
+│           IoT Sensors Simulator (Python)                │
 │  Temperature | Pressure | Vibration | Power | OEE Data  │
 └─────────────────────────────────────────────────────────┘
 ```
